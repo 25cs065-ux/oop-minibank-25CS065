@@ -7,6 +7,26 @@ public class MiniBank {
         BankInfo bank = new BankInfo("MiniBank", "Main Branch");
         System.out.println("Welcome to " + bank.name() + " - " + bank.branch());
 
+        Account[] accounts = new Account[3];
+
+        accounts[0] = new Account("Khushi", 1000);
+        accounts[1] = new Account("Rahul");
+        accounts[2] = new Account("Priya", 2000);
+
+        accounts[0].deposit(500);
+        accounts[0].withdraw(200);
+
+        accounts[1].deposit(1000);
+        accounts[1].withdraw(300);
+
+        accounts[2].deposit(500);
+        accounts[2].withdraw(700);
+
+        System.out.println("\nAccount Balances:");
+        for (int i = 0; i < accounts.length; i++) {
+            System.out.println(accounts[i].getOwnerName() + " : " + accounts[i].getBalance());
+        }
+
         boolean running = true;
 
         while (running) {
