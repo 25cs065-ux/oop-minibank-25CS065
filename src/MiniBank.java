@@ -9,9 +9,9 @@ public class MiniBank {
 
         Account[] accounts = new Account[3];
 
-        accounts[0] = new Account("Khushi", 1000);
-        accounts[1] = new Account("Rahul");
-        accounts[2] = new Account("Priya", 2000);
+        accounts[0] = new SavingsAccount("Khushi", 1000, 500);
+        accounts[1] = new CurrentAccount("Rahul", 1000, 500);
+        accounts[2] = new FixedDepositAccount("Priya", 2000);
 
         accounts[0].deposit(500);
         accounts[0].withdraw(200);
@@ -24,7 +24,24 @@ public class MiniBank {
 
         System.out.println("\nAccount Balances:");
         for (int i = 0; i < accounts.length; i++) {
-            System.out.println(accounts[i].getOwnerName() + " : " + accounts[i].getBalance());
+            System.out.println(
+                accounts[i].getOwnerName() + " : " + accounts[i].getBalance()
+            );
+        }
+
+        // Runtime polymorphism
+        System.out.println("\nInterest Rates:");
+        for (Account account : accounts) {
+            System.out.println(
+                account.getOwnerName() + " : " + account.interestRate() + "%"
+            );
+
+            // Pattern instanceof check
+            if (account instanceof FixedDepositAccount fd) {
+                System.out.println(
+                    fd.getOwnerName() + " has a Fixed Deposit Account."
+                );
+            }
         }
 
         boolean running = true;

@@ -1,10 +1,16 @@
 public class Main {
     public static void main(String[] args) {
 
-        Account a1 = new Account("Riya", 4000);
-        Account a2 = new Account("Aman", 4000);
+        // Creating different types of accounts
+        Account a1 = new SavingsAccount("Riya", 4000, 1000);
+        Account a2 = new CurrentAccount("Aman", 4000, 5000);
+        Account a3 = new FixedDepositAccount("Neha", 10000);
 
         System.out.println(a1);
+        System.out.println(a2);
+        System.out.println(a3);
+
+        System.out.println();
 
         System.out.println("a1 equals a2 -> " + a1.equals(a2));
 
@@ -12,6 +18,40 @@ public class Main {
 
         Object obj = a1;
         System.out.println("obj instanceof Account -> " + (obj instanceof Account));
+
+        // Runtime polymorphism using Account array
+        Account[] accounts = {a1, a2, a3};
+
+        System.out.println();
+        System.out.println("Interest Rates:");
+
+        for (Account account : accounts) {
+            System.out.println(
+                account.getOwnerName() + " -> " + account.interestRate() + "%"
+            );
+        }
+
+        // instanceof check
+        if (a3 instanceof FixedDepositAccount) {
+            System.out.println();
+            System.out.println("a3 is a Fixed Deposit Account.");
+        }
+
+        // Withdrawal tests
+        System.out.println();
+        System.out.println("Withdrawal Tests:");
+
+        System.out.println(
+            "Savings withdrawal: " + a1.withdraw(2000)
+        );
+
+        System.out.println(
+            "Current withdrawal: " + a2.withdraw(7000)
+        );
+
+        System.out.println(
+            "Fixed Deposit withdrawal: " + a3.withdraw(1000)
+        );
 
         Customer c = new Customer(
                 "Riya",
