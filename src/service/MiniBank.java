@@ -1,7 +1,21 @@
+
+package service;
+
 import java.util.Scanner;
 
+import model.Account;
+import model.BankInfo;
+import model.CurrentAccount;
+import model.FixedDepositAccount;
+import model.SavingsAccount;
+import util.WithdrawRule;
+
+import static service.StatementFormatter.buildStatement;
+
 public class MiniBank {
+
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
 
         BankInfo bank = new BankInfo("MiniBank", "Main Branch");
@@ -23,6 +37,7 @@ public class MiniBank {
         accounts[2].withdraw(700);
 
         System.out.println("\nAccount Balances:");
+
         for (int i = 0; i < accounts.length; i++) {
             System.out.println(
                 accounts[i].getOwnerName() + " : " + accounts[i].getBalance()
@@ -31,9 +46,16 @@ public class MiniBank {
 
         // Runtime polymorphism
         System.out.println("\nInterest Rates:");
+
         for (Account account : accounts) {
+
             System.out.println(
                 account.getOwnerName() + " : " + account.interestRate() + "%"
+            );
+
+            // Yearly interest using default interface method
+            System.out.println(
+                "Yearly Interest: Rs. " + account.yearlyInterest()
             );
 
             // Pattern instanceof check
@@ -44,25 +66,68 @@ public class MiniBank {
             }
         }
 
+        // Static import demonstration
+        System.out.println("\nAccount Statement:");
+
+        System.out.println(buildStatement(accounts[0]));
+
+        // WithdrawRule using anonymous class
+        WithdrawRule anonymousRule = new WithdrawRule() {
+
+            @Override
+            public boolean allow(Account account, long amount) {
+                return amount > 0 && account.canWithdraw(amount);
+            }
+        };
+
+        // WithdrawRule using lambda expression
+        WithdrawRule lambdaRule = (account, amount) ->
+                amount > 0 && account.canWithdraw(amount);
+
+        System.out.println("\nWithdraw Rule Testing:");
+
+        Account testAccount = accounts[0];
+
+        long testAmount = 100;
+
+        System.out.println(
+            "Anonymous Class Allowed: "
+            + anonymousRule.allow(testAccount, testAmount)
+        );
+
+        System.out.println(
+            "Lambda Allowed: "
+            + lambdaRule.allow(testAccount, testAmount)
+        );
+
         boolean running = true;
 
         while (running) {
+
             System.out.println("\n1. Open Account");
             System.out.println("2. Deposit");
             System.out.println("3. Withdraw");
             System.out.println("4. Transfer");
             System.out.println("5. Exit");
+
             System.out.print("Enter your choice: ");
 
             int choice = sc.nextInt();
 
             String message = switch (choice) {
+
                 case 1 -> "Open Account - to be implemented in a later lab";
+
                 case 2 -> "Deposit - to be implemented in a later lab";
+
                 case 3 -> "Withdraw - to be implemented in a later lab";
+
                 case 4 -> "Transfer - to be implemented in a later lab";
+
                 case 5 -> "Goodbye! Thank you for using MiniBank.";
+
                 default -> "Invalid choice. Please try again.";
+
             };
 
             System.out.println(message);

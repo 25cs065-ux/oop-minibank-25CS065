@@ -1,3 +1,13 @@
+import model.Account;
+import model.CurrentAccount;
+import model.Customer;
+import model.FixedDepositAccount;
+import model.SavingsAccount;
+import service.StatementFormatter;
+import util.Command;
+import util.CommandParser;
+import util.Validator;
+
 public class Main {
     public static void main(String[] args) {
 

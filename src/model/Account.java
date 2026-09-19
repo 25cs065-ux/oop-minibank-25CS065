@@ -1,4 +1,8 @@
-public abstract class Account {
+
+package model;
+
+public abstract class Account implements Transactable, InterestBearing {
+
     private final String accountNumber;
     private String ownerName;
     private long balance;
@@ -20,11 +24,13 @@ public abstract class Account {
         return String.format("AC%04d", counter++);
     }
 
+    @Override
     public void deposit(long amount) {
         if (amount > 0)
             balance += amount;
     }
 
+    @Override
     public boolean withdraw(long amount) {
         if (amount > 0 && canWithdraw(amount)) {
             balance -= amount;
@@ -34,6 +40,7 @@ public abstract class Account {
     }
 
     // Abstract methods required by Part B
+    @Override
     public abstract double interestRate();
 
     public abstract boolean canWithdraw(long amount);

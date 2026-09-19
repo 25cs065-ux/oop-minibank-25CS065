@@ -1,5 +1,7 @@
-// Run this once to confirm your Codespace and Java are working,
-// then delete it and start Lab 1.
+
+package service;
+
+// Run this once to confirm your Codespace and Java are working.
 public class Welcome {
     public static void main(String[] args) {
         System.out.println("MiniBank environment is ready.");

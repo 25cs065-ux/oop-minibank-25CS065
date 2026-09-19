@@ -1,4 +1,8 @@
+
+package model;
+
 public class CurrentAccount extends Account {
+
     private long overdraftLimit;
 
     public CurrentAccount(String ownerName, long openingBalance, long overdraftLimit) {
