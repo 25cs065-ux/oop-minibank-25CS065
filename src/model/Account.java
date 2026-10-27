@@ -1,10 +1,16 @@
-
 package model;
+
+import model.annotation.Id;
+import model.annotation.Positive;
+import model.annotation.MaxLength;
 
 public abstract class Account implements Transactable, InterestBearing {
 
+    @Id
     private final String accountNumber;
+    @MaxLength(50)
     private String ownerName;
+    @Positive
     private long balance;
     private boolean active;
     private static int counter = 1;
@@ -39,7 +45,6 @@ public abstract class Account implements Transactable, InterestBearing {
         return false;
     }
 
-    // Abstract methods required by Part B
     @Override
     public abstract double interestRate();
 
@@ -75,7 +80,6 @@ public abstract class Account implements Transactable, InterestBearing {
             return false;
 
         Account other = (Account) o;
-
         return accountNumber.equals(other.accountNumber);
     }
 
