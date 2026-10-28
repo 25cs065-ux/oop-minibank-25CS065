@@ -27,14 +27,16 @@ public class MiniBank {
         accounts[1] = new CurrentAccount("Rahul", 1000, 500);
         accounts[2] = new FixedDepositAccount("Priya", 2000);
 
-        accounts[0].deposit(500);
-        accounts[0].withdraw(200);
-
-        accounts[1].deposit(1000);
-        accounts[1].withdraw(300);
-
-        accounts[2].deposit(500);
-        accounts[2].withdraw(700);
+        try {
+    accounts[0].deposit(500);
+    accounts[0].withdraw(200);
+    accounts[1].deposit(1000);
+    accounts[1].withdraw(300);
+    accounts[2].deposit(500);
+    accounts[2].withdraw(700);
+} catch (exception.BankException e) {
+    System.out.println("Transaction error: " + e.getMessage());
+}
 
         System.out.println("\nAccount Balances:");
 

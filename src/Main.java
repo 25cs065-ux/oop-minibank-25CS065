@@ -8,6 +8,9 @@ import util.Command;
 import util.CommandParser;
 import util.Validator;
 import util.AnnotationValidator;
+import exception.BankException;
+import exception.InsufficientFundsException;
+import service.BankSession;
 
 public class Main {
     public static void main(String[] args) {
@@ -45,11 +48,25 @@ public class Main {
         }
 
         System.out.println();
-        System.out.println("Withdrawal Tests:");
+System.out.println("Withdrawal Tests:");
 
-        System.out.println("Savings withdrawal: " + a1.withdraw(2000));
-        System.out.println("Current withdrawal: " + a2.withdraw(7000));
-        System.out.println("Fixed Deposit withdrawal: " + a3.withdraw(1000));
+try {
+    System.out.println("Savings withdrawal: " + a1.withdraw(2000));
+} catch (BankException e) {
+    System.out.println(e.getMessage());
+}
+
+try {
+    System.out.println("Current withdrawal: " + a2.withdraw(7000));
+} catch (BankException e) {
+    System.out.println(e.getMessage());
+}
+
+try {
+    System.out.println("Fixed Deposit withdrawal: " + a3.withdraw(1000));
+} catch (BankException e) {
+    System.out.println(e.getMessage());
+}
 
         Customer c = new Customer(
             "Riya",
@@ -127,5 +144,32 @@ public class Main {
                 System.out.println(error);
             }
         }
-    }
+    System.out.println();
+System.out.println("Exception and Transfer Tests:");
+
+Account source = new SavingsAccount("Test Source", 1000, 0);
+Account destination = new SavingsAccount("Test Destination", 500, 0);
+
+try {
+    source.withdraw(5000);
+} catch (InsufficientFundsException e) {
+    System.out.println(e.getMessage());
+    System.out.println("Shortfall field: Rs. " + e.getShortfall());
+} catch (BankException e) {
+    System.out.println(e.getMessage());
+}
+
+try {
+    source.transfer(destination, 300);
+} catch (BankException e) {
+    System.out.println(e.getMessage());
+}
+
+System.out.println("Source balance: Rs. " + source.getBalance());
+System.out.println("Destination balance: Rs. " + destination.getBalance());
+
+try (BankSession session = new BankSession()) {
+    System.out.println("Performing a banking operation.");
+}
+}
 }
