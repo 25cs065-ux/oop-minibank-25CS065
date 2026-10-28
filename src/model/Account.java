@@ -1,3 +1,4 @@
+
 package model;
 
 import exception.BankException;
@@ -35,15 +36,25 @@ public abstract class Account implements Transactable, InterestBearing {
     }
 
     @Override
-    public void deposit(long amount) throws InvalidAmountException {
+    public synchronized void deposit(long amount) throws InvalidAmountException {
         if (amount <= 0) {
             throw new InvalidAmountException(amount);
         }
         balance += amount;
     }
 
+    public void depositWithoutSynchronization(long amount)
+            throws InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException(amount);
+        }
+        long currentBalance = balance;
+        Thread.yield();
+        balance = currentBalance + amount;
+    }
+
     @Override
-    public boolean withdraw(long amount)
+    public synchronized boolean withdraw(long amount)
             throws InsufficientFundsException, InvalidAmountException {
         if (amount <= 0) {
             throw new InvalidAmountException(amount);
@@ -88,7 +99,7 @@ public abstract class Account implements Transactable, InterestBearing {
         return ownerName;
     }
 
-    public long getBalance() {
+    public synchronized long getBalance() {
         return balance;
     }
 
@@ -98,7 +109,7 @@ public abstract class Account implements Transactable, InterestBearing {
 
     @Override
     public String toString() {
-        return accountNumber + " | " + ownerName + " | " + balance;
+        return accountNumber + " | " + ownerName + " | " + getBalance();
     }
 
     @Override
