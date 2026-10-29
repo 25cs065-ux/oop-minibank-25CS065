@@ -1,6 +1,7 @@
 
 package model;
 
+import java.io.Serializable;
 import exception.BankException;
 import exception.InsufficientFundsException;
 import exception.InvalidAmountException;
@@ -9,7 +10,8 @@ import model.annotation.Id;
 import model.annotation.Positive;
 import model.annotation.MaxLength;
 
-public abstract class Account implements Transactable, InterestBearing {
+public abstract class Account implements Transactable, InterestBearing, Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     private final String accountNumber;
@@ -43,8 +45,7 @@ public abstract class Account implements Transactable, InterestBearing {
         balance += amount;
     }
 
-    public void depositWithoutSynchronization(long amount)
-            throws InvalidAmountException {
+    public void depositWithoutSynchronization(long amount) throws InvalidAmountException {
         if (amount <= 0) {
             throw new InvalidAmountException(amount);
         }

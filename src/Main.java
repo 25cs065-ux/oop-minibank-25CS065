@@ -11,6 +11,11 @@ import util.AnnotationValidator;
 import exception.BankException;
 import exception.InsufficientFundsException;
 import service.BankSession;
+import persistence.StatePersister;
+import persistence.TransactionLog;
+import persistence.ReportGenerator;
+import java.io.IOException;
+import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) {
@@ -170,6 +175,36 @@ System.out.println("Destination balance: Rs. " + destination.getBalance());
 
 try (BankSession session = new BankSession()) {
     System.out.println("Performing a banking operation.");
+}
+System.out.println();
+System.out.println("PART B: PERSISTENCE AND REPORTING");
+
+try {
+    Path stateFile = Path.of("data", "accounts.dat");
+    StatePersister.save(accounts, stateFile);
+
+    Account[] loadedAccounts = StatePersister.load(stateFile);
+
+    System.out.println("Accounts saved and loaded successfully:");
+
+    for (Account account : loadedAccounts) {
+        System.out.println(account);
+    }
+
+    Path logsFolder = Path.of("data", "logs");
+    Path logFile = logsFolder.resolve("transactions.log");
+
+    TransactionLog.append(logFile, "DEPOSIT AC0001 500");
+    TransactionLog.append(logFile, "WITHDRAW AC0002 200");
+
+    Path reportFile = Path.of("data", "end-of-day-report.txt");
+    String report = ReportGenerator.generate(logsFolder, reportFile);
+
+    System.out.println();
+    System.out.println(report);
+    System.out.println("Report saved to: " + reportFile);
+} catch (IOException | ClassNotFoundException e) {
+    System.out.println("Persistence error: " + e.getMessage());
 }
 }
 }

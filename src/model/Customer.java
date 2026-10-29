@@ -1,7 +1,11 @@
 
 package model;
 
-public class Customer implements Cloneable {
+import java.io.Serializable;
+
+public class Customer implements Cloneable, Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String name, email, mobile;
     private final String customerId;
     private Address address;
@@ -19,7 +23,9 @@ public class Customer implements Cloneable {
         return "CUST" + customerCounter;
     }
 
-    public static class Address {
+    public static class Address implements Serializable {
+        private static final long serialVersionUID = 1L;
+
         private String line, city, pincode;
 
         public Address(String line, String city, String pincode) {
@@ -54,6 +60,7 @@ public class Customer implements Cloneable {
         return (Customer) super.clone();
     }
 
+    @Override
     public String toString() {
         return customerId + " | " + name;
     }
