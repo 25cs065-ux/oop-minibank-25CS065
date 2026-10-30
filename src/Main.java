@@ -17,6 +17,7 @@ import persistence.TransactionLog;
 import persistence.ReportGenerator;
 import java.io.IOException;
 import java.nio.file.Path;
+import persistence.Repository;
 
 public class Main {
     public static void main(String[] args) {
@@ -73,7 +74,7 @@ public class Main {
             System.out.println(account);
         }
 
-        System.out.println("\nCollections Framework Demonstration Completed.");
+        System.out.println("\nCollections Framework Demonstration Completed."); 
 
         Account a1 = new SavingsAccount("Riya", 4000, 1000);
         Account a2 = new CurrentAccount("Aman", 4000, 5000);
@@ -261,5 +262,59 @@ try {
 } catch (IOException | ClassNotFoundException e) {
     System.out.println("Persistence error: " + e.getMessage());
 }
+
+System.out.println();
+System.out.println("PART C: GENERIC REPOSITORY");
+
+Repository<Account> accountRepository = new Repository<>();
+
+Account repoAccount1 = new SavingsAccount("Rahul", 5000, 1000);
+Account repoAccount2 = new SavingsAccount("Priya", 7000, 1000);
+Account repoAccount3 = new SavingsAccount("Amit", 9000, 1000);
+
+accountRepository.saveAll(repoAccount1, repoAccount2, repoAccount3);
+
+System.out.println("\nAccount Found by ID:");
+System.out.println(accountRepository.findById(repoAccount2.getAccountNumber()));
+
+System.out.println("\nAll Accounts in Repository:");
+for (Account account : accountRepository.findAll()) {
+    System.out.println(account);
 }
+
+System.out.println("Total Accounts: " + accountRepository.size());
+
+System.out.println("\nDelete Account:");
+System.out.println(accountRepository.delete(repoAccount1.getAccountNumber()));
+
+System.out.println("Accounts After Deletion: " + accountRepository.size());
+
+Repository<Customer> customerRepository = new Repository<>();
+
+Customer customer2 = new Customer(
+    "Aman",
+    "aman@example.com",
+    "9876543211"
+);
+
+customerRepository.saveAll(c, customer2);
+
+System.out.println("\nCustomers in Repository:");
+for (Customer customer : customerRepository.findAll()) {
+    System.out.println(customer);
+}
+
+System.out.println("Customer Found:");
+System.out.println(customerRepository.findById(c.getCustomerId()));
+
+System.out.println("Total Customers: " + customerRepository.size());
+
+Integer[] repositoryNumbers = {10, 20, 30, 40, 50};
+
+System.out.println("\nGeneric Average: " + Repository.average(repositoryNumbers));
+
+System.out.println("\nGeneric Repository Demonstration Completed.");
+
+}
+
 }

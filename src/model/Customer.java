@@ -2,12 +2,13 @@
 package model;
 
 import java.io.Serializable;
-
+import model.annotation.Id;
 public class Customer implements Cloneable, Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name, email, mobile;
-    private final String customerId;
+    @Id
+private final String customerId;
     private Address address;
     private static long customerCounter = 100;
 
