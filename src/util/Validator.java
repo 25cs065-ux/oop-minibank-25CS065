@@ -32,4 +32,8 @@ public class Validator {
     public static boolean isValidIfsc(String value) {
         return IFSC.matcher(value).matches();
     }
+ public static boolean isValidOwnerName(String value) {
+    return value != null
+            && value.trim().matches("[A-Za-z ]{1,50}");
+}   
 }

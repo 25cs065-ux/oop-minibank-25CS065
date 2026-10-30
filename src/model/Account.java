@@ -32,6 +32,24 @@ public abstract class Account implements Transactable, InterestBearing, Serializ
     public Account(String ownerName) {
         this(ownerName, 0);
     }
+    public static synchronized void updateCounter(Account[] accounts) {
+    int max = 0;
+
+    for (Account account : accounts) {
+        if (account != null) {
+            try {
+                int number = Integer.parseInt(
+                    account.getAccountNumber().substring(2)
+                );
+                max = Math.max(max, number);
+            } catch (NumberFormatException e) {
+                continue;
+            }
+        }
+    }
+
+    counter = Math.max(counter, max + 1);
+}
 
     private static String generateAccountNumber() {
         return String.format("AC%04d", counter++);
