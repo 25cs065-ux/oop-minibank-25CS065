@@ -1,3 +1,4 @@
+import service.AccountStore;
 import model.Account;
 import model.CurrentAccount;
 import model.Customer;
@@ -19,6 +20,60 @@ import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) {
+                System.out.println("PART B: COLLECTIONS FRAMEWORK");
+
+        AccountStore store = new AccountStore();
+
+        Account storeAccount1 = new SavingsAccount("Riya", 5000, 0);
+        Account storeAccount2 = new SavingsAccount("Aman", 2000, 0);
+        Account storeAccount3 = new SavingsAccount("Neha", 9000, 0);
+
+        store.add(storeAccount1);
+        store.add(storeAccount2);
+        store.add(storeAccount3);
+
+        store.addTransaction("Account AC0001 created");
+        store.addTransaction("Account AC0002 created");
+        store.addTransaction("Account AC0003 created");
+
+        System.out.println("\nAccount Lookup:");
+
+        System.out.println(store.get("AC0002"));
+
+        System.out.println("\nAccounts Sorted by Balance:");
+
+        for (Account account : store.sortedByBalance()) {
+            System.out.println(account);
+        }
+
+        System.out.println("\nAll Accounts:");
+
+        for (Account account : store.getAll()) {
+            System.out.println(account);
+        }
+
+        System.out.println("\nTransaction History:");
+
+        for (String transaction : store.getTransactionHistory()) {
+            System.out.println(transaction);
+        }
+
+        System.out.println("\nAccounts Above Rs. 5000:");
+
+        for (Account account : store.getAccountsAboveBalance(5000)) {
+            System.out.println(account);
+        }
+
+        System.out.println("\nAccounts Sorted by Account Number:");
+
+        java.util.ArrayList<Account> naturalOrder = store.getAll();
+        java.util.Collections.sort(naturalOrder);
+
+        for (Account account : naturalOrder) {
+            System.out.println(account);
+        }
+
+        System.out.println("\nCollections Framework Demonstration Completed.");
 
         Account a1 = new SavingsAccount("Riya", 4000, 1000);
         Account a2 = new CurrentAccount("Aman", 4000, 5000);
